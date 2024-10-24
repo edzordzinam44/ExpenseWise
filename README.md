@@ -113,7 +113,7 @@ A personal finance management application built using the React framework. This 
 ## Appreciation to Contributors
 - Edzordzinam Alipui **FrontEnd**: [Github](https://github.com/edzordzinam44) [Email](edzordzinam.alipui@gmail.com)
 - Gbolahan Folarin **FrontEnd**: [Github] [Email]
-- Samuel Ugochukwu **BackEnd**: [Github] [Email]
+- Samuel Ugochukwu **BackEnd**: [Github](https://github.com/Samuraxworld) [Email](Samuraxworld@gmail.com)
 - Yusuf M. Musa    **BackEnd**: [Github] [Email]
 
 ## Happy Smart Hacking 💻
