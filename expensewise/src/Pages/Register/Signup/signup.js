@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './signup.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import logo from '../../../images/background-img.png';
 
 function SignUp() {
     const navigate = useNavigate();
@@ -58,71 +60,74 @@ function SignUp() {
     };
 
     return (
-        <div className='signup-container'>
-            <form onSubmit={handleSubmit}>
-                <h2>Sign Up</h2>
-                {error && <p className='error'>{error}</p>}
-                <div className='form-group'>
-                    <label htmlFor="firstName">First Name</label>
-                    <input
-                        type="text"
-                        placeholder='First Name'
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="lastName">Last Name</label>
-                    <input
-                        type="text"
-                        placeholder='Last Name'
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        placeholder='eg.expenseWise@gmail.com'
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        placeholder='Password'
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        type="password"
-                        placeholder='Confirm Password'
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Signing Up...' : 'Sign Up'}
-                </button>
-                <p className='login-link'>Already have an account? <a href='./logIn' _blank="true" rel="noopener noreferrer">Log In</a></p>
-            </form>
-        </div>
+        <>
+            <img className='page-logo' src={logo} alt='page-logo' />
+            <div className='signup-container'>
+                <form onSubmit={handleSubmit}>
+                    <h2>Sign Up</h2>
+                    {error && <p className='error'>{error}</p>}
+                    <div className='form-group'>
+                        <label htmlFor="firstName">First Name</label>
+                        <input
+                            type="text"
+                            placeholder='First Name'
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            type="text"
+                            placeholder='Last Name'
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="email"><i className='fas fa-envelope'></i>Email</label>
+                        <input
+                            type="email"
+                            placeholder='eg.expenseWise@gmail.com'
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="password"><i className='fas fa-lock'></i>Password</label>
+                        <input
+                            type="password"
+                            placeholder='Password'
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="confirmPassword"><i className='fas fa-lock'></i>Confirm Password</label>
+                        <input
+                            type="password"
+                            placeholder='Confirm Password'
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button className='btnn' type="submit" disabled={loading}>
+                        {loading ? 'Signing Up...' : 'Sign Up'}
+                    </button>
+                    <p className='login-link'>Already have an account? <a href='./logIn' _blank="true" rel="noopener noreferrer">Log In</a></p>
+                </form>
+            </div>
+        </>
     );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
-// import videobg from '../../../assets/react-bg.mp4';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from '../../../images/background-img.png';
 
 function LogIn() {
@@ -89,6 +89,7 @@ function LogIn() {
                     <button className='btnn' type='submit'>Submit</button>
                 </form>
             </div>
+            <button className='signup' onClick={() => navigate('/signup')}>SIGN Up</button>
         </>
     );
 }
