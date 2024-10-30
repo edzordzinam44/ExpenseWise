@@ -32,5 +32,5 @@ app.use("/auth", authRoutes);
 // START THE SERVER
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
-  console.log(`Authentication is running on port ${PORT}`);
+  console.log(`Authentication server is running on port ${PORT}`);
 });
