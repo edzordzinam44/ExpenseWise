@@ -78,6 +78,7 @@ function Homepage() {
                         <img className='img-bg' src={page} alt="Background" />
                         <h1>Welcome! <br />Your reliable app for tracking expenses...</h1>
                     </section>
+
                     <footer className='footer'>
                         <p>&copy; 2024 ExpenseWise. All rights reserved.</p>
                     </footer>
