@@ -3,25 +3,26 @@
 A personal finance management application built using the React framework. This app helps users track their income and expenses, set budgets, view analytics, and manage their financial accounts. The application offers a seamless user experience with a clean, user-friendly interface.
 
 ## Table of Contents
-- [Features](#features)
-- [Feature Categorization](#feature-categorization)
-  - [Basic Features](#basic-features)
-  - [Intermediate Features](#intermediate-features)
-  - [Advanced Features](#advanced-features)
-- [Screens](#screens)
-  - [Login/Sign-Up Screen](#login-sign-up-screen)
-  - [Home/Dashboard Screen](#home-dashboard-screen)
-  - [Add Expense Screen](#add-expense-screen)
-  - [Category Breakdown Screen](#category-breakdown-screen)
-  - [Budgeting Screen](#budgeting-screen)
-  - [Reports/Analytics Screen](#reports-analytics-screen)
-  - [Settings Screen](#settings-screen)
-  - [Profile/Account Screen](#profile-account-screen)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+- [ExpenseWise App](#expensewise-app)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Feature Categorization](#feature-categorization)
+    - [Basic Features](#basic-features)
+    - [Intermediate Features](#intermediate-features)
+    - [Advanced Features](#advanced-features)
+  - [Screens](#screens)
+    - [1. Login/Sign-Up Screen](#1-loginsign-up-screen)
+    - [2. Home/Dashboard Screen](#2-homedashboard-screen)
+    - [3. Add Expense Screen](#3-add-expense-screen)
+    - [4. Category Breakdown Screen](#4-category-breakdown-screen)
+    - [5. Budgeting Screen](#5-budgeting-screen)
+    - [6. Reports/Analytics Screen](#6-reportsanalytics-screen)
+    - [7. Settings Screen](#7-settings-screen)
+    - [8. Profile/Account Screen](#8-profileaccount-screen)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Appreciation to Contributors](#appreciation-to-contributors)
+  - [Happy Smart Hacking 💻](#happy-smart-hacking-)
 
 ## Features
 - User Authentication (Sign Up, Login, Password Reset)
@@ -113,7 +114,7 @@ A personal finance management application built using the React framework. This 
 ## Appreciation to Contributors
 - Edzordzinam Alipui **FrontEnd**: [Github](https://github.com/edzordzinam44) [Email](edzordzinam.alipui@gmail.com)
 - Gbolahan Folarin **FrontEnd**: [Github] [Email]
-- Samuel Ugochukwu **BackEnd**: [Github] [Email]
-- Yusuf M. Musa    **BackEnd**: [Github] [Email]
+- Samuel Ugochukwu **BackEnd**: [Github](https://github.com/Samuraxworld) [Email](Samuraxworld@gmail.com)
+- Yusuf M. Musa    **BackEnd**: [Github](https://github.com/yusuufmm) [Email](yusuf2000mm@gmail.com)
 
 ## Happy Smart Hacking 💻
