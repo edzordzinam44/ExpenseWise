@@ -6,16 +6,36 @@ import page from '../../images/background-img.png';
 
 function Homepage() {
     const [showLogin, setShowLogin] = useState(false);
+    const [showSignup, setShowSignup] = useState(false);
 
-    const handleShowLogin = () => setShowLogin(true);
+    const handleShowLogin = () => {
+        setShowLogin(true);
+        setShowSignup(false);
+    };
+
+    const handleShowSignup = () => {
+        setShowSignup(true);
+        setShowLogin(false);
+    };
+
+    const handleBack = () => {
+        setShowLogin(false);
+        setShowSignup(false);
+    };
 
     return (
         <>
-            {showLogin ? (
-                <div className='login-container'>
+            {showLogin || showSignup ? (
+                <div className='auth-container'>
                     <img className='page-logo' src={page} alt="Background" />
                     <div className='form-content'>
-                        <h2>Login</h2>
+                        <h2>{showLogin ? 'Login' : 'Sign Up'}</h2>
+                        {showSignup && (
+                            <div className='form-group'>
+                                <label htmlFor="username">Username</label>
+                                <input type="text" id="username" placeholder="Enter your username" />
+                            </div>
+                        )}
                         <div className='form-group'>
                             <label htmlFor="email">Email</label>
                             <input type="email" id="email" placeholder="Enter your email" />
@@ -24,9 +44,23 @@ function Homepage() {
                             <label htmlFor="password">Password</label>
                             <input type="password" id="password" placeholder="Enter your password" />
                         </div>
-                        <button className='btnn'>Login</button>
-                        <a href="#" className='form-group'>Forgot Password?</a>
-                        <button className='signup' onClick={() => setShowLogin(false)}>Back</button>
+                        {showSignup && (
+                            <div className='form-group'>
+                                <label htmlFor="confirm-password">Confirm Password</label>
+                                <input type="password" id="confirm-password" placeholder="Confirm your password" />
+                            </div>
+                        )}
+                        <button className='btnn'>{showLogin ? 'Login' : 'Sign Up'}</button>
+                        <p className='or'>or</p>
+                        <button className='social-btn google-btn'>Sign {showLogin ? 'in' : 'up'} with Google</button>
+                        <div className='back-container'>
+                            <button className='back-btn' onClick={handleBack}>Back</button>
+                            <button
+                                className='toggle-btn'
+                                onClick={showLogin ? handleShowSignup : handleShowLogin}>
+                                {showLogin ? 'Need an account? Sign Up' : 'Have an account? Log In'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             ) : (
