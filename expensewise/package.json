@@ -30,6 +30,14 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "^./authService$": "<rootDir>/__mocks__/authService.js"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
