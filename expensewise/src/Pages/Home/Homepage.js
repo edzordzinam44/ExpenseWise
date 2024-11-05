@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from '../../images/logo.png';
@@ -9,6 +10,15 @@ function Homepage() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleShowLogin = () => {
@@ -35,12 +45,60 @@ function Homepage() {
         setShowForgotPassword(false);
     };
 
-    const handleDashboardAccess = () => {
-        const isAuthenticated = localStorage.getItem('user') !== null;
-        if (isAuthenticated) {
-            navigate('/dashboard');
-        } else {
-            handleShowLogin();
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSignupSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const response = await axios.post('http://localhost:5002/api/signup', {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                password: formData.password
+            });
+
+            if (response.status === 201) {
+                alert('User registered successfully!');
+                navigate('/login');
+            } else {
+                setError(response.data.error || 'Something went wrong. Please try again.');
+            }
+        } catch (err) {
+            setError('Failed to connect to server. Please try again later...');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const response = await axios.post('http://localhost:5002/api/login', {
+                email: formData.email,
+                password: formData.password
+            });
+            if (response.status === 200) {
+                alert('Login Successful!');
+                navigate('/dashboard');
+            } else {
+                setError(response.data.error || 'Something went wrong. Please try again.');
+            }
+        } catch (err) {
+            setError('Failed to connect to server. Please try again later...');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -51,31 +109,59 @@ function Homepage() {
                     <img className='page-logo' src={page} alt="Background" />
                     <div className='form-content'>
                         <h2>{showLogin ? 'Login' : showSignup ? 'Sign Up' : 'Forgot Password'}</h2>
-
+                        {error && <p className='error'>{error}</p>}
                         {showSignup && (
                             <div className='form-group'>
-                                <input type="text" id="username" required />
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="firstName"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                    required
+                                />
                                 <label htmlFor="username">Username</label>
                             </div>
                         )}
 
                         {(showLogin || showSignup || showForgotPassword) && (
                             <div className='form-group'>
-                                <input type="email" id="email" required />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
                                 <label htmlFor="email">Email</label>
                             </div>
                         )}
 
                         {(showLogin || showSignup) && (
                             <div className='form-group'>
-                                <input type="password" id="password" required />
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
                                 <label htmlFor="password">Password</label>
                             </div>
                         )}
 
                         {showSignup && (
                             <div className='form-group'>
-                                <input type="password" id="confirm-password" required />
+                                <input
+                                    type="password"
+                                    id="confirm-password"
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    required
+                                />
                                 <label htmlFor="confirm-password">Confirm Password</label>
                             </div>
                         )}
@@ -86,7 +172,13 @@ function Homepage() {
 
                         {!showForgotPassword && (
                             <>
-                                <button className='btnn'>{showLogin ? 'Login' : 'Sign Up'}</button>
+                                <button
+                                    className='btnn'
+                                    onClick={showSignup ? handleSignupSubmit : handleLoginSubmit}
+                                    disabled={loading}
+                                >
+                                    {loading ? 'Loading...' : showLogin ? 'Login' : 'Sign Up'}
+                                </button>
                                 {showLogin && (
                                     <p className='forgot-password' onClick={handleShowForgotPassword}>
                                         Forgot Password?
@@ -113,7 +205,7 @@ function Homepage() {
                         <a href='/'><img src={logo} alt='ExpenseWise Logo' /></a>
                         <ul className='nav'>
                             <li><a href='#' onClick={handleShowLogin}><i className="fas fa-sign-in-alt"></i> Login</a></li>
-                            <li><a href='#' onClick={handleDashboardAccess}><i className="fas fa-chart-line"></i> Dashboard</a></li>
+                            <li><a href='#' onClick={() => navigate('/dashboard')}><i className="fas fa-chart-line"></i> Dashboard</a></li>
                             <li><a href='/aboutus'><i className='fas fa-info-circle'></i> About Us</a></li>
                             <li><a href='/contactus'><i className='fas fa-envelope'></i> Contact Us</a></li>
                             <li><a href='/logout'><i className='fas fa-sign-out-alt'></i> Log Out</a></li>

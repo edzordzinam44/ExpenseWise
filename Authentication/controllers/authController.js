@@ -10,8 +10,8 @@ exports.signup = async (req, res) => {
 
   try {
     // CHECK IF USER ALREADY EXISTS
-    const extinguisher = await User.findOne({ email });
-    if (extinguisher) {
+    const existinguser = await User.findOne({ email });
+    if (existinguser) {
       return res.status(400).send("User already exists");
     }
 

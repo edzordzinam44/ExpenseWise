@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './signup.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
 import logo from '../../../images/background-img.png';
 
 function SignUp() {
@@ -26,31 +27,24 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(formData);
         if (formData.password !== formData.confirmPassword) {
             alert('Passwords do not match');
             return;
         }
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:5000/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    password: formData.password
-                })
+            const response = await axios.post('http://localhost:5002/api/signup', {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                password: formData.password
             });
-
-            const data = await response.json();
 
             if (response.ok) {
                 alert('User Register Successfully!');
                 navigate('/login');
             } else {
-                setError(data.error || 'Something went wrong. Please try again.')
+                setError(response.data.error || 'Something went wrong. Please try again.');
             }
         } catch (err) {
             setError('Failed to connect to server. Please try again later...');
@@ -122,9 +116,9 @@ function SignUp() {
                         />
                     </div>
                     <button className='btnn' type="submit" disabled={loading}>
-                        {loading ? 'Signing Up...' : 'Sign Up'}
+                        {loading ? 'Signing Up...' : 'Sign Uggggggggp'}
                     </button>
-                    <p className='login-link'>Already have an account? <a href='./logIn' _blank="true" rel="noopener noreferrer">Log In</a></p>
+                    <p className='login-link'>Already have an account? <Link to='/login'>Log In</Link></p>
                 </form>
             </div>
         </>

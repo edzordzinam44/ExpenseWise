@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
 import logo from '../../../images/background-img.png';
 
 function LogIn() {
@@ -26,19 +27,16 @@ function LogIn() {
         // console.log(formData);
 
         try {
-            const response = await fetch('http://localhost:5000/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+            const response = await axios.post('http://localhost:5002/api/login', formData, {
+                headers: { 'Content-Type': 'application/json' }
             });
 
-            const data = await response.json();
-            if (response.ok) {
+            if (response.status === 200) {
                 setSuccess("Login Successful!");
                 setError('');
                 navigate('/Home');
             } else {
-                setError(data.error || 'Something went wrong...!')
+                setError(response.data.error || 'Something went wrong...!')
             }
         } catch (err) {
             setError("Error connecting to server");
