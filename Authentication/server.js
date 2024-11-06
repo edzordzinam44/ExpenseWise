@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const mongoose = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const jwt = require("jsonwebtoken");
@@ -6,6 +7,12 @@ require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+
+//ALLOW CORS FOR FRONTEND ORIGIN
+app.use(cors({
+  origin: 'http:localhost:3000',
+  credentials: true
+}));
 
 // INITIALIZE USER AS NULL
 let user = null;
