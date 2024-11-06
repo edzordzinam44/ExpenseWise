@@ -7,9 +7,17 @@ const expenseRoute = require("./routes/expense");
 dotenv.config();
 const app = express();
 
+// ALLOW CORS FOR EXPENSES_AI ORIGIN
+app.use(
+  cors({
+    origin: "http://localhost:5003",
+    credentials: true,
+  })
+);
+
 //MIDDLEWARE
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 // ROUTES
 app.use("/expenses", expenseRoute);
