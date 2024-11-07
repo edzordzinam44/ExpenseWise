@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+const User = require("./models/userModel");
 const mongoose = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const jwt = require("jsonwebtoken");
@@ -10,7 +11,7 @@ app.use(express.json());
 
 //ALLOW CORS FOR FRONTEND ORIGIN
 app.use(cors({
-  origin: 'http:localhost:3000',
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
@@ -18,7 +19,7 @@ app.use(cors({
 let user = null;
 
 // AUTHENTICATE THE USER
-app.post("/login", async (req, res) => {
+app.post("/auth/login", async (req, res) => {
   user = await User.findOne({ email: req.body.email });
 
   if (!user) {

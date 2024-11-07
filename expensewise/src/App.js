@@ -5,6 +5,7 @@ import Login from './Pages/Register/Login/login';
 import SignUp from './Pages/Register/Signup/signup';
 import ForgotPass from './Pages/Register/ForgotPass/fortgotPass';
 import Dashboard from './Pages/Dashboard/Dashboard';
+import AboutUs from './Pages/About/aboutus';
 
 // Simple auth check - you'll want to replace this with your actual auth logic
 const PrivateRoute = ({ children }) => {
@@ -27,6 +28,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/about' element={<AboutUs />} />
         <Route path='/forgot-password' element={<ForgotPass />} />
         <Route path='*' element={<h1>404 Not Found</h1>} />
       </Routes>

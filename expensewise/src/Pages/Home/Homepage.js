@@ -5,6 +5,7 @@ import './Homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from '../../images/logo.png';
 import page from '../../images/background-img.png';
+// import AboutUs from '../About/aboutus';
 
 function Homepage() {
     const [showLogin, setShowLogin] = useState(false);
@@ -59,13 +60,16 @@ function Homepage() {
             return;
         }
 
+        const requestData = JSON.stringify({
+             firstName: formData.firstName,
+             lastName: formData.lastName,
+             email: formData.email,
+             password: formData.password
+        });
+
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:5002/api/signup', {
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                email: formData.email,
-                password: formData.password
+            const response = await axios.post('http://localhost:5002/auth/signup', requestData, {
             });
 
             if (response.status === 201) {
@@ -83,12 +87,18 @@ function Homepage() {
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+
+        const requestData = JSON.stringify({
+            username: formData.username,
+            password: formData.password
+        });
         try {
-            const response = await axios.post('http://localhost:5002/api/login', {
-                email: formData.email,
-                password: formData.password
-            });
+            setLoading(true);
+            const response = await axios.post(
+                'http://localhost:5002/auth/signup',
+                requestData,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
             if (response.status === 200) {
                 alert('Login Successful!');
                 navigate('/dashboard');
@@ -206,7 +216,7 @@ function Homepage() {
                         <ul className='nav'>
                             <li><a href='#' onClick={handleShowLogin}><i className="fas fa-sign-in-alt"></i> Login</a></li>
                             <li><a href='#' onClick={() => navigate('/dashboard')}><i className="fas fa-chart-line"></i> Dashboard</a></li>
-                            <li><a href='/aboutus'><i className='fas fa-info-circle'></i> About Us</a></li>
+                            <li><a href='/AboutUs'><i className='fas fa-info-circle'></i> About Us</a></li>
                             <li><a href='/contactus'><i className='fas fa-envelope'></i> Contact Us</a></li>
                             <li><a href='/logout'><i className='fas fa-sign-out-alt'></i> Log Out</a></li>
                         </ul>
