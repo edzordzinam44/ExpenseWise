@@ -77,7 +77,7 @@ function Homepage() {
 
             if (response.status === 201) {
                 alert('User registered successfully!');
-                navigate('/login');
+                navigate('/auth/login');
             } else {
                 setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
             }
