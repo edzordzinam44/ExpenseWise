@@ -5,7 +5,6 @@ import './Homepage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from '../../images/logo.png';
 import page from '../../images/background-img.png';
-// import AboutUs from '../About/aboutus';
 
 function Homepage() {
     const [showLogin, setShowLogin] = useState(false);
@@ -15,10 +14,11 @@ function Homepage() {
         firstName: '',
         lastName: '',
         email: '',
+        username: '',
         password: '',
         confirmPassword: ''
     });
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -51,35 +51,38 @@ function Homepage() {
             ...formData,
             [e.target.name]: e.target.value
         });
+        setErrors({ ...errors, [e.target.name]: '' }); // Clear error for the current field on change
     };
 
     const handleSignupSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+            setErrors({ ...errors, confirmPassword: 'Passwords do not match' });
             return;
         }
 
         const requestData = JSON.stringify({
-             firstName: formData.firstName,
-             lastName: formData.lastName,
-             email: formData.email,
-             password: formData.password
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            username: formData.username,
+            password: formData.password
         });
 
         try {
             setLoading(true);
             const response = await axios.post('http://localhost:5002/auth/signup', requestData, {
+                headers: { 'Content-Type': 'application/json' }
             });
 
             if (response.status === 201) {
                 alert('User registered successfully!');
                 navigate('/login');
             } else {
-                setError(response.data.error || 'Something went wrong. Please try again.');
+                setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
             }
         } catch (err) {
-            setError('Failed to connect to server. Please try again later...');
+            setErrors({ general: 'Failed to connect to server. Please try again later...' });
         } finally {
             setLoading(false);
         }
@@ -92,10 +95,13 @@ function Homepage() {
             username: formData.username,
             password: formData.password
         });
+
+        console.log('Login request data:', requestData);
+
         try {
             setLoading(true);
             const response = await axios.post(
-                'http://localhost:5002/auth/signup',
+                'http://localhost:5002/auth/login',
                 requestData,
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -103,10 +109,10 @@ function Homepage() {
                 alert('Login Successful!');
                 navigate('/dashboard');
             } else {
-                setError(response.data.error || 'Something went wrong. Please try again.');
+                setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
             }
         } catch (err) {
-            setError('Failed to connect to server. Please try again later...');
+            setErrors({ general: 'Failed to connect to server. Please try again later...' });
         } finally {
             setLoading(false);
         }
@@ -119,32 +125,35 @@ function Homepage() {
                     <img className='page-logo' src={page} alt="Background" />
                     <div className='form-content'>
                         <h2>{showLogin ? 'Login' : showSignup ? 'Sign Up' : 'Forgot Password'}</h2>
-                        {error && <p className='error'>{error}</p>}
+                        {errors.general && <p className='error'>{errors.general}</p>}
+                        
                         {showSignup && (
                             <div className='form-group'>
                                 <input
                                     type="text"
-                                    id="username"
+                                    id="firstName"
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleChange}
                                     required
                                 />
-                                <label htmlFor="username">Username</label>
+                                <label htmlFor="firstName">First Name</label>
+                                {errors.firstName && <p className='error'>{errors.firstName}</p>}
                             </div>
                         )}
 
-                        {(showLogin || showSignup || showForgotPassword) && (
+                        {(showSignup || showLogin) && (
                             <div className='form-group'>
                                 <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    value={formData.username}
                                     onChange={handleChange}
                                     required
                                 />
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="username">Username</label>
+                                {errors.username && <p className='error'>{errors.username}</p>}
                             </div>
                         )}
 
@@ -159,6 +168,7 @@ function Homepage() {
                                     required
                                 />
                                 <label htmlFor="password">Password</label>
+                                {errors.password && <p className='error'>{errors.password}</p>}
                             </div>
                         )}
 
@@ -173,6 +183,7 @@ function Homepage() {
                                     required
                                 />
                                 <label htmlFor="confirm-password">Confirm Password</label>
+                                {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
                             </div>
                         )}
 

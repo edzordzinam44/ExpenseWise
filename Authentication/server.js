@@ -11,7 +11,8 @@ app.use(express.json());
 
 //ALLOW CORS FOR FRONTEND ORIGIN
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
 }));
 
