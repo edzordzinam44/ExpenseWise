@@ -10,7 +10,7 @@ import AboutUs from './Pages/About/aboutus';
 // Simple auth check - you'll want to replace this with your actual auth logic
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = localStorage.getItem('user') !== null; // Replace with your auth check
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/dashboard" />;
 };
 
 function App() {

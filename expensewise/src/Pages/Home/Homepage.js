@@ -11,10 +11,8 @@ function Homepage() {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
         username: '',
+        email: '',
         password: '',
         confirmPassword: ''
     });
@@ -62,10 +60,8 @@ function Homepage() {
         }
 
         const requestData = JSON.stringify({
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
             username: formData.username,
+            email: formData.email,
             password: formData.password
         });
 
@@ -77,7 +73,7 @@ function Homepage() {
 
             if (response.status === 201) {
                 alert('User registered successfully!');
-                navigate('/auth/login');
+                navigate('/login');
             } else {
                 setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
             }
@@ -96,7 +92,7 @@ function Homepage() {
             password: formData.password
         });
 
-        console.log('Login request data:', requestData);
+        // console.log('Login request data:', requestData);
 
         try {
             setLoading(true);
@@ -112,7 +108,7 @@ function Homepage() {
                 setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
             }
         } catch (err) {
-            setErrors({ general: 'Failed to connect to server. Please try again later...' });
+            setErrors({ general: 'Failed to connect to server. Refresh the browser...!' });
         } finally {
             setLoading(false);
         }
@@ -126,21 +122,36 @@ function Homepage() {
                     <div className='form-content'>
                         <h2>{showLogin ? 'Login' : showSignup ? 'Sign Up' : 'Forgot Password'}</h2>
                         {errors.general && <p className='error'>{errors.general}</p>}
-                        
-                        {showSignup && (
+
+                        {/* {showSignup && (
                             <div className='form-group'>
                                 <input
                                     type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    value={formData.firstName}
+                                    id="Username"
+                                    name="Username"
+                                    value={formData.username}
                                     onChange={handleChange}
                                     required
                                 />
-                                <label htmlFor="firstName">First Name</label>
+                                <label htmlFor="firstName">Username</label>
                                 {errors.firstName && <p className='error'>{errors.firstName}</p>}
                             </div>
-                        )}
+                        )} */}
+
+                        {(showSignup && (
+                            <div className='form-group'>
+                                <input
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <label htmlFor="email">Email</label>
+                                {errors.email && <p className='error'>{errors.email}</p>}
+                            </div>
+                        ))}
 
                         {(showSignup || showLogin) && (
                             <div className='form-group'>
@@ -188,7 +199,18 @@ function Homepage() {
                         )}
 
                         {showForgotPassword && (
+                            <div className='form-group'>
+                                <input
+                                    type='email'
+                                    id='email'
+                                    name='email'
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <label htmlFor='email'>Reset Password</label>
                             <button className='btnn'>Reset Password</button>
+                            </div>
                         )}
 
                         {!showForgotPassword && (
