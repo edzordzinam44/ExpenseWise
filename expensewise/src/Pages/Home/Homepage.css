@@ -104,8 +104,8 @@ body {
     color: white;
     text-align: center;
     transform: translateY(-10%);
-    position: absolute;
-    bottom: -60px;
+    /* position: absolute;
+    bottom: -60px; */
 }
 
 /* Form Group Styling */

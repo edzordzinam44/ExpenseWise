@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Homepage.css';
@@ -18,7 +18,13 @@ function Homepage() {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate();
+
+    // Check if user is already authenticated
+    useEffect(() => {
+        setIsAuthenticated(localStorage.getItem('username') !== null);
+    }, []);
 
     const handleShowLogin = () => {
         setShowLogin(true);
@@ -43,6 +49,12 @@ function Homepage() {
         setShowSignup(false);
         setShowForgotPassword(false);
     };
+
+    const LogoutButton = () => {
+        localStorage.removeItem('user')
+        setIsAuthenticated(false);
+        window.location.reload();
+    }
 
     const handleChange = (e) => {
         setFormData({
@@ -73,12 +85,12 @@ function Homepage() {
 
             if (response.status === 201) {
                 alert('User registered successfully!');
-                navigate('/login');
+                handleShowLogin();
             } else {
                 setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
             }
         } catch (err) {
-            setErrors({ general: 'Failed to connect to server. Please try again later...' });
+            setErrors({ general: alert('Failed to connect to server. Please try again later...') });
         } finally {
             setLoading(false);
         }
@@ -103,6 +115,8 @@ function Homepage() {
             );
             if (response.status === 200) {
                 alert('Login Successful!');
+                localStorage.setItem('user', response.data.user);
+                setIsAuthenticated(true);
                 navigate('/dashboard');
             } else {
                 setErrors({ general: response.data.error || 'Something went wrong. Please try again.' });
@@ -209,7 +223,7 @@ function Homepage() {
                                     required
                                 />
                                 <label htmlFor='email'>Reset Password</label>
-                            <button className='btnn'>Reset Password</button>
+                                <button className='btnn'>Reset Password</button>
                             </div>
                         )}
 
@@ -240,6 +254,9 @@ function Homepage() {
                                 </button>
                             )}
                         </div>
+                        {/* <div className='back-container'>
+                            <button className='toggle-btn' onClick={LogoutButton}>Logout</button>
+                        </div> */}
                     </div>
                 </div>
             ) : (
@@ -251,7 +268,7 @@ function Homepage() {
                             <li><a href='#' onClick={() => navigate('/dashboard')}><i className="fas fa-chart-line"></i> Dashboard</a></li>
                             <li><a href='/AboutUs'><i className='fas fa-info-circle'></i> About Us</a></li>
                             <li><a href='/contactus'><i className='fas fa-envelope'></i> Contact Us</a></li>
-                            <li><a href='/logout'><i className='fas fa-sign-out-alt'></i> Log Out</a></li>
+                            <li><a href='#' onClick={LogoutButton} ><i className='fas fa-sign-out-alt'></i> Log Out</a></li>
                         </ul>
                     </header>
                     <section className='main section'>

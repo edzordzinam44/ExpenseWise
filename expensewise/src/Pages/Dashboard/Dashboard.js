@@ -377,6 +377,8 @@ const Budgeting = () => {
 
 // Main Dashboard Component
 const Dashboard = () => {
+    console.log('Dashboard is rendering');
+
   return (
     <ThemeProvider theme={theme}>
       <DashboardContainer>
