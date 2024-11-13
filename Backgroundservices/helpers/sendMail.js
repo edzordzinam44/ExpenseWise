@@ -11,7 +11,7 @@ let configurations = {
   service: "gmail",
   host: "smtp.gmail.com",
   port: 587,
-  requireTLS: true,
+  secure: false, // Using TLS on port 587
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASSWORD,
@@ -19,15 +19,15 @@ let configurations = {
 };
 
 const sendMail = async (messageOption) => {
-  const transporter = await createTransporter(configurations);
-  await transporter.verify();
-  await transporter.sendMail(messageOption, (error, info) => {
-    if (error) {
-      console.log(error);
-    }
+  const transporter = createTransporter(configurations);
 
-    console.log(info.response);
-  });
+  try {
+    await transporter.verify();
+    const info = await transporter.sendMail(messageOption);
+    console.log("Email sent:", info.response);
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
 };
 
 module.exports = sendMail;

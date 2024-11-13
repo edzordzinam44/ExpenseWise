@@ -17,8 +17,14 @@ mongoose
   });
 
 const schedule = () => {
-  cron.schedule("* * * * * *", () => {
-    expenseEmail();
+  // SENDS EMAIL EVERY 2 MINUTES
+  cron.schedule("*/2 * * * *", async () => {
+    try {
+      await expenseEmail();
+      console.log("Expense email sent successfully");
+    } catch (error) {
+      console.error("Error sending expense email:", error);
+    }
   });
 };
 

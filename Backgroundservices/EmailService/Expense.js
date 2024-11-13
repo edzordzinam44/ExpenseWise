@@ -15,7 +15,7 @@ const expenseEmail = async () => {
       from: process.env.EMAIL,
       to: process.env.ADMIN_EMAIL,
       subject: "warning",
-      text: "Your total expenses is ${totalExpense}. Kindly review your expenses",
+      text: `Your total expenses is ${totalExpense}. Kindly review your expenses`,
     };
 
     await sendMail(messageOption);
