@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import axios from 'axios';
 import styled, { ThemeProvider } from 'styled-components';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
@@ -347,12 +348,30 @@ const Charts = () => {
 };
 
 const Budgeting = () => {
-  const categories = [
+  const [categories, setCategories] = useState([
     { name: 'Groceries', spent: 450, budget: 500 },
     { name: 'Transportation', spent: 180, budget: 200 },
     { name: 'Entertainment', spent: 280, budget: 300 },
     { name: 'Utilities', spent: 150, budget: 200 },
-  ];
+  ]);
+
+  const [newCategory, setNewCategory] = useState({ name: '', spent: '', budget: '' });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCategory({ ...newCategory, [name]: value });
+  };
+
+  const handleAddCategory = (e) => {
+    e.preventDefault();
+    const { name, spent, budget } = newCategory;
+
+    // Only add if fields are not empty and budget/spent are valid numbers
+    if (name && spent && budget && !isNaN(spent) && !isNaN(budget)) {
+      setCategories([...categories, { name, spent: parseFloat(spent), budget: parseFloat(budget) }]);
+      setNewCategory({ name: '', spent: '', budget: '' }); // Reset form
+    }
+  };
 
   return (
     <BudgetCard>
@@ -371,13 +390,45 @@ const Budgeting = () => {
           </BudgetCategory>
         );
       })}
+      <form onSubmit={handleAddCategory} style={{ marginTop: '1.5rem' }}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Category Name"
+          value={newCategory.name}
+          onChange={handleInputChange}
+          required
+          style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+        />
+        <input
+          type="number"
+          name="spent"
+          placeholder="Amount Spent"
+          value={newCategory.spent}
+          onChange={handleInputChange}
+          required
+          style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+        />
+        <input
+          type="number"
+          name="budget"
+          placeholder="Budget Amount"
+          value={newCategory.budget}
+          onChange={handleInputChange}
+          required
+          style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+        />
+        <button type="submit" style={{ padding: '0.5rem 1rem', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '0.5rem' }}>
+          Add Category
+        </button>
+      </form>
     </BudgetCard>
   );
 };
 
 // Main Dashboard Component
 const Dashboard = () => {
-    console.log('Dashboard is rendering');
+  console.log('Dashboard is rendering');
 
   return (
     <ThemeProvider theme={theme}>

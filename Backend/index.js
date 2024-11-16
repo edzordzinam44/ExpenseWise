@@ -10,7 +10,7 @@ const app = express();
 // ALLOW CORS FOR EXPENSES_AI ORIGIN
 app.use(
   cors({
-    origin: "http://localhost:5003",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
